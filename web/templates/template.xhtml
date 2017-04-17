@@ -24,7 +24,21 @@
                              <p:menuitem value="Manutenção de Cidades"
                                          action="#{controleCidade.listar()}"
                                         ajax="false"/>
-                          
+                            
+                              <p:menuitem value="Manutenção de Pessoas"
+                                         action="#{controlePessoa.listar()}"
+                                        ajax="false"/>
+                              
+                               <p:menuitem value="Manutenção de Classes"
+                                         action="#{controleClasse.listar()}"
+                                        ajax="false"/>
+                                <p:menuitem value="Manutenção dos Voos"
+                                         action="#{controleVoo.listar()}"
+                                        ajax="false"/>
+                                <p:menuitem value="Manutenção dos Aeroportos"
+                                         action="#{controleAeroporto.listar()}"
+                                        ajax="false"/>
+                               
                         </p:submenu>
                     </p:menu>
                 </h:form>
