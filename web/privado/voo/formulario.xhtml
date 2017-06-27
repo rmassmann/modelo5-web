@@ -10,39 +10,82 @@
         <ui:define name="conteudo">
             <h:form>
                 <p:growl/>
-                <p:panelGrid columns="2">
-                    <f:facet name="footer">
+                <p:tabView id="tab">
+                    <p:tab title="Dados Principais">
                         <div align="center">
-                            <p:commandButton value="Cancelar"
-                                             action="#{controleVoo.cancelar()}"
-                                             ajax="false" immediate="true"/>
-                            <p:commandButton value="Salvar" icon="ui-icon-disk"
-                                             action="#{controleVoo.salvar()}"
-                                             ajax="false"/>
-                        </div>                                                  
-                    </f:facet>
-                    <p:outputLabel value="ID"/>
-                    <p:inputText value="#{controleVoo.objeto.id}" size="10"/>
-                    <p:outputLabel value="Descricao" for="txtDescricao"/>
-                    <p:inputText value="#{controleVoo.objeto.descricao}"
-                                 id="txtDescricao" size="40" maxlength="40"
-                                 placeholder="Obrigatório"/>
-                    <p:outputLabel value="Tempo Estimado" for="tempo"/>
-                    <p:inputText id="tempo"
-                                value="#{controleVoo.objeto.tempoEstimado}"
-                                size="10" maxlength="10"
-                                 placeholder="Obrigatório"/>
-                
-                    <p:outputLabel value="Ativo" for="txtAtivo"/>
-                    <p:selectBooleanCheckbox value="#{controleVoo.objeto.ativo}"
-                                 id="txtAtivo"/>
-                    <p:outputLabel value="Periodicidade" for="txtPeriodicidade"/>
-                    <p:inputText value="#{controleVoo.objeto.pediodicidade}"
-                                 id="txtPeriodicidade" size="40" maxlength="40"
-                                 placeholder="Obrigatório"/>
-                  
-                    
-                </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <f:facet name="footer">
+                                    <div align="center">                                 
+                                        <p:commandButton value="Salvar" icon="ui-icon-disk"
+                                                         actionListener="#{controleVoo.salvar()}"
+                                                         update=":formListagem :formEdicao"
+                                                         oncomplete="if (!args.validationFailed) {VO('dlg').hide();}"/>
+                                    </div>                                                  
+                                </f:facet>
+                                <p:outputLabel value="ID"/>
+                                <p:inputText value="#{controleVoo.objeto.id}" size="10"/>
+                                <p:outputLabel value="Descricao" for="txtDescricao"/>
+                                <p:inputText value="#{controleVoo.objeto.descricao}"
+                                             id="txtDescricao" size="40" maxlength="40"
+                                             placeholder="Obrigatório"/>
+                                <p:outputLabel value="Tempo Estimado" for="tempo"/>
+                                <p:inputText id="tempo"
+                                             value="#{controleVoo.objeto.tempoEstimado}"
+                                             size="10" maxlength="10"
+                                             placeholder="Obrigatório"/>
+
+                                <p:outputLabel value="Ativo" for="txtAtivo"/>
+                                <p:selectBooleanCheckbox value="#{controleVoo.objeto.ativo}"
+                                                         id="txtAtivo"/>
+                                <p:outputLabel value="Periodicidade" for="txtPeriodicidade"/>
+                                <p:inputText value="#{controleVoo.objeto.pediodicidade}"
+                                             id="txtPeriodicidade" size="40" maxlength="40"
+                                             placeholder="Obrigatório"/>
+
+                            </p:panelGrid>
+                        </div>
+                    </p:tab>
+                    <p:tab title="Escalas">
+                        <p:dataTable value='#{controleVoo.objeto.escalas}'
+                                         var='esc' rowIndexVar="idxesc" id='listaEscalas'>
+                                <f:facet name='header'>
+                                    <p:panelGrid columns='2'>
+                                        <p:selectOneMenu value='#{controleVoo.aeroporto}'
+                                                         id='selectAeroporto'>
+                                            <f:converter converterId="converterAeroporto"/>
+                                            <f:selectItem itemLabel="Selecione um Registro"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value='#{controleVoo.daoAeroporto.listaTodos}'
+                                                          var='e' itemLabel="#{e.nome} - #{p.cidade.nome}"/>
+                                            
+                                        </p:selectOneMenu>
+                                        <p:commandButton value='Adicionar'
+                                                         actionListener="#{controlePessoaFisica.adicionarProduto()}"
+                                                         update='listaDesejos :formEdicao:growl'
+                                                         id='btnAdicionarDesejo'
+                                                         process='btnAdicionarDesejo selectProduto'
+                                                         icon='ui-icon-plus'/>
+                                    </p:panelGrid>
+                                </f:facet>
+                                <p:column headerText="Produto">
+                                    <p:outputLabel value='#{des.nome}'/>
+                                </p:column>
+                                <p:column headerText="Marca">
+                                    <p:outputLabel value='#{des.marca.nome}'/>
+                                </p:column>
+                                <p:column headerText="Acoes">
+                                    <p:commandButton id='btnRemoverDesejo'
+                                                     actionListener="#{controlePessoaFisica.removerProduto(idxdes)}"
+                                                     process='btnRemoverDesejo'
+                                                     update='listaDesejos :formEdicao:growl'
+                                                     icon='ui-icon-trash'/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </p:tab>
+                </p:tabView>
+
+
             </h:form>
         </ui:define>
     </ui:composition>    

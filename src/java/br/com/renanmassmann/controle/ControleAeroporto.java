@@ -14,7 +14,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ControleAeroporto implements Serializable {
     
-    private AeroportoDAO dao;
+    private AeroportoDAO<Aeroporto> dao;
     private Aeroporto objeto;
      private CidadeDAO daoCidade;
     
@@ -36,7 +36,7 @@ public class ControleAeroporto implements Serializable {
     }
     
     public String salvar(){
-        if (dao.salvar(objeto)){
+        if (dao.persist(objeto)){
             Util.mensagemInformacao(dao.getMensagem());
             return "listar";
         } else {
